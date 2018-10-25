@@ -31,8 +31,6 @@ Start-Transcript -path "${date}-${LOG_FILE}" -append;
 
 $basedir = (Convert-Path ../);
 
-CheckDataBase;
-
 Log "ランチャールートディレクトリ：${basedir}"
 $game_zip = $basedir + "/gomi_zip";
 
@@ -71,6 +69,8 @@ NoTimeLog "Zip List"
 foreach ($item in $zipfiles){
     NoTimeLog "${item}"
 }
+
+CheckDataBase
 
 Stop-Transcript
 
