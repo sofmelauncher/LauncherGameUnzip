@@ -38,8 +38,8 @@ $game_zip = $basedir + "/gomi_zip";
 
 Log "ディスク作成:${game_zip}"
 $buff = New-Item $game_zip -ItemType Directory -Force;
-Log "ディスク作成:${basedir}/game"
-$buff = New-Item ${basedir}/game -ItemType Directory -Force;
+Log "ディスク作成:${basedir}\game"
+$buff = New-Item ${basedir}\game -ItemType Directory -Force;
 
 Log "データダウンロード"
 ./bin/wget.exe -r $DOWNLOAD_URI
@@ -47,10 +47,10 @@ Log "データダウンロード"
 #ゴミファイル削除
 Get-ChildItem $basedir -include  *.html* -Recurse | ForEach-Object -Process { Remove-Item $_ | Log "削除:${_}"  }
 
-Get-ChildItem $DOWNLOAD_FILE -include * -Recurse | ForEach-Object -Process { Move-Item  "$_" "${basedir}/game" | Log "移動:${_}から${basedir}/game/"  }
+Get-ChildItem $DOWNLOAD_FILE -include * -Recurse | ForEach-Object -Process { Move-Item  "$_" "${basedir}\game" | Log "移動:${_}から${basedir}\game\"  }
 
-Log "ダウンロードディレクトリ削除:${basedir}/bin/${DOWNLOAD_DOMAIN}"
-Remove-Item "${basedir}/bin/${DOWNLOAD_DOMAIN}" -Recurse -Force
+Log "ダウンロードディレクトリ削除:${basedir}\bin\${DOWNLOAD_DOMAIN}"
+Remove-Item "${basedir}\bin\${DOWNLOAD_DOMAIN}" -Recurse -Force
 
 Log "Search zip files..."
 $zipfiles = Get-ChildItem $basedir -Recurse | Where-Object {$_.Extension -eq ".zip"}
