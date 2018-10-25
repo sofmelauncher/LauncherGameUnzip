@@ -24,8 +24,8 @@ foreach ($item in $zipfiles){
     $destination = $destination.Substring(0, $destination.Length - ($item.Extension).Length);
     $buffer = New-Item -Path $destination -ItemType Directory
  
-    Expand-Archive -Path $item.FullName -DestinationPath $destination
-    Move-Item $item.FullName $gomidir;
+    #Expand-Archive -Path $item.FullName -DestinationPath $destination
+    #Move-Item $item.FullName $gomidir;
 }
 Stop-Transcript
 
