@@ -39,12 +39,10 @@ $gomi_index = $basedir + "/gomi_index";
 
 Log "ディスク作成:${gomi_zip}"
 $buff =  New-Item $gomi_zip -ItemType Directory -Force;
-Log "ディスク作成:${gomi_index}"
-$buff =  New-Item $gomi_index -ItemType Directory -Force;
 
 Log "データダウンロード"
 #./bin/wget.exe -r $DOWNLOAD_URI
-#Move-Item $DOWNLOAD_FILE "../game";
+Move-Item $DOWNLOAD_FILE "../game";
 
 #ゴミファイル削除
 Get-ChildItem $basedir -include  *.html* -r | ForEach-Object -Process { Remove-Item $_ | Log "削除:${_}"  }
