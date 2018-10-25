@@ -1,55 +1,5 @@
-﻿function Invoke-DownloadFile{
-
-	[CmdletBinding()]
-	param(
-		[parameter(Mandatory,position=0)]
-		[string]
-		$Uri,
-
-		[parameter(Mandatory,position=1)]
-		[string]
-		$DownloadFolder,
-
-		[parameter(Mandatory,position=2)]
-		[string]
-		$FileName
-	)
-
-	begin
-	{
-		If (-not(Test-Path $DownloadFolder))
-		{
-			try
-			{
-				New-Item -ItemType Directory -Path $DownloadFolder -ErrorAction stop
-			}
-			catch
-			{
-				throw $_
-			}
-		}
-
-		try
-		{
-			$DownloadPath = Join-Path $DownloadFolder $FileName -ErrorAction Stop
-		}
-		catch
-		{
-			throw $_
-		}
-	}
-
-	process
-	{
-		Invoke-WebRequest -Uri $Uri -OutFile $DownloadPath -Verbose -PassThru
-	}
-
-	end
-	{
-		Get-Item $DownloadPath
-	}
-
-}
+﻿set LOG_PATH "./Expandlog.log" -option constant
+set DOWNLOAD_URI "http://sofme.unitech.jp/static/gameregister/file" -option constant
 
 function Log($text, $Level){
     $time = (Get-Date -Format 'yyyy/MM/dd-HH:mm:ss.fff')
@@ -74,18 +24,23 @@ function CheckDataBase(){
         Log "DBが存在しません" 2
     } 
 }
-set LOG_PATH "./Expandlog.log" -option constant
-
 Start-Transcript -path $LOG_PATH -append;
 
-#$basedir = "C:\Users\SAVIO\Desktop\test";
-$basedir = (Convert-Path .);
+$basedir = (Convert-Path ../);
 
 CheckDataBase;
 
-Log "ディレクトリ：${basedir}"
-$gomidir = $basedir + "\gomi";
-$buff =  New-Item $gomidir -ItemType Directory -Force;
+Log "ランチャールートディレクトリ：${basedir}"
+$gomi_zip = $basedir + "\gomi.zip";
+$gomi_index = $basedir + "\gomi.index";
+
+Log "ディスク作成:${gomi_zip}"
+$buff =  New-Item $gomi_zip -ItemType Directory -Force;
+Log "ディスク作成:${gomi_index}"
+$buff =  New-Item $gomi_index -ItemType Directory -Force;
+
+.\bin\wget.exe -r $DOWNLOAD_URI
+
 Log "Search zip files..."
 $zipfiles = Get-ChildItem $basedir -Recurse | Where-Object {$_.Extension -eq ".zip"}
     
@@ -105,7 +60,6 @@ NoTimeLog "Zip List"
 foreach ($item in $zipfiles){
     NoTimeLog "${item}"
 }
-Invoke-DownloadFile -Uri "http://sofme.unitech.jp/static/gameregister/file" -DownloadFolder "./"
 
 Stop-Transcript
 
