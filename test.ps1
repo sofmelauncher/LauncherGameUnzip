@@ -1,6 +1,6 @@
 ﻿set LOG_FILE "Expandlog.log" -option constant
 set DOWNLOAD_URI "http://sofme.unitech.jp/static/gameregister/file" -option constant
-set DOWNLOAD_FILE "sofme.unitech.jp/static/gameregister/file" -option constant
+set DOWNLOAD_FILE "sofme.unitech.jp/static/gameregister/file/" -option constant
 set DOWNLOAD_DOMAIN "sofme.unitech.jp" -option constant
 
 function Log($text, $Level){
@@ -34,20 +34,23 @@ $basedir = (Convert-Path ../);
 CheckDataBase;
 
 Log "ランチャールートディレクトリ：${basedir}"
-$gomi_zip = $basedir + "/gomi_zip";
-$gomi_index = $basedir + "/gomi_index";
+$game_zip = $basedir + "/gomi_zip";
 
-Log "ディスク作成:${gomi_zip}"
-$buff =  New-Item $gomi_zip -ItemType Directory -Force;
+Log "ディスク作成:${game_zip}"
+$buff = New-Item $game_zip -ItemType Directory -Force;
+Log "ディスク作成:${basedir}/game"
+$buff = New-Item ${basedir}/game -ItemType Directory -Force;
 
 Log "データダウンロード"
-#./bin/wget.exe -r $DOWNLOAD_URI
-Move-Item $DOWNLOAD_FILE "../game";
+./bin/wget.exe -r $DOWNLOAD_URI
 
 #ゴミファイル削除
-Get-ChildItem $basedir -include  *.html* -r | ForEach-Object -Process { Remove-Item $_ | Log "削除:${_}"  }
+Get-ChildItem $basedir -include  *.html* -Recurse | ForEach-Object -Process { Remove-Item $_ | Log "削除:${_}"  }
+
+Get-ChildItem $DOWNLOAD_FILE -include * -Recurse | ForEach-Object -Process { Move-Item  "$_" "${basedir}/game" | Log "移動:${_}から${basedir}/game/"  }
+
 Log "ダウンロードディレクトリ削除:${basedir}/bin/${DOWNLOAD_DOMAIN}"
-Remove-Item "${basedir}/bin/${DOWNLOAD_DOMAIN}"
+Remove-Item "${basedir}/bin/${DOWNLOAD_DOMAIN}" -Recurse -Force
 
 Log "Search zip files..."
 $zipfiles = Get-ChildItem $basedir -Recurse | Where-Object {$_.Extension -eq ".zip"}
