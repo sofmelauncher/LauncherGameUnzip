@@ -30,33 +30,36 @@ Start-Transcript -path "${date}-${LOG_FILE}" -append;
 $basedir = (Convert-Path ../);
 
 Log "ランチャールートディレクトリ：${basedir}"
-$game_zip = $basedir + "/gomi_zip";d2
+$game_zip = $basedir + "\gomi_zip";
 
 Log "ディレクトリ作成:${game_zip}"
 $buff = New-Item $game_zip -ItemType Directory -Force;
 Log "ディレクトリ作成:${basedir}\game"
 $buff = New-Item "${basedir}\game" -ItemType Directory -Force;
 
-#ゲーム移動
-Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\game\" | Log "移動:${_}から${basedir}\game\"  }
+#ゲーム複製
+Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\game\" | Log "複製:${_}から${basedir}\game\"  }
 
 Log "ダウンロードディレクトリ削除:${basedir}\bin\${DOWNLOAD_DOMAIN}"
-Remove-Item "${basedir}\${GAME_DIR}\" -Recurse -Force
 
-Log "Search zip files..."
-$zipfiles = Get-ChildItem $basedir -Recurse | Where-Object {$_.Extension -eq ".zip"}
+
+Log "zipファイル探索ディレクトリ：${basedir}\game"
+$zipfiles = Get-ChildItem "${basedir}\game" -Recurse | Where-Object {$_.Extension -eq ".zip"}
     
 Log "Expand zip files..."
 foreach ($item in $zipfiles){
     $destination = $item.FullName;
     $destination = $destination.Substring(0, $destination.Length - ($item.Extension).Length);
-    Log "[Destination] ${destination}"
-    #$buffer = New-Item -Path $destination -ItemType Directory
-    Log "[Expand] ${item}"
-    #Expand-Archive -Path $item.FullName -DestinationPath $destination
-    Log "[Move-Item] ${item}"
-    #Move-Item $item.FullName $gomidir;
+    $destinationParent = Split-Path $destination -Parent
+    $buffer = New-Item -Path $destination -ItemType Directory -Force
+    Log "解凍先： ${destination}"
+    Log "解凍：${item}"
+    Expand-Archive -Path $item.FullName -DestinationPath $destinationParent -Force
+    Log "zipファイル移動：${item}"
+    Move-Item $item.FullName $game_zip;
 }
+#元ゲームデータ削除
+#Remove-Item "${basedir}\bin\${GAME_DIR}\" -Recurse -Force
 
 CheckDataBase
 NoTimeLog "Zip List"
