@@ -28,7 +28,7 @@ $avifiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object {$_.Exte
 $shell=New-Object -Com Shell.Application;
 
 Remove-Item "${CSV_FILE}" -Recurse -Force
-Add-Content -path "${CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","長さ","総ビットレート","フレーム幅","フレーム高","フレーム率"'
+Add-Content -path "${CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","長さ","総ビットレート","フレーム幅","フレーム高","フレーム率"' -Encoding UTF8
 
 foreach ($item in $mp4files){
     $folderobj = $shell.NameSpace($item.DirectoryName)
@@ -48,7 +48,7 @@ foreach ($item in $mp4files){
     Log "[サイズ]：${file_size}";
     Log "[長さ]：${length}";
     Log "[ビットレート]：${bit_rate}";
-    Add-Content -path "${CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}"
+    Add-Content -path "${CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}" -Encoding UTF8
 
 }
 foreach ($item in $avifiles){
@@ -69,6 +69,6 @@ foreach ($item in $avifiles){
     Log "[サイズ]：${file_size}";
     Log "[長さ]：${length}";
     Log "[ビットレート]：${bit_rate}";
-    Add-Content -path "${CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}"
+    Add-Content -path "${CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}" -Encoding UTF8
 
 }
