@@ -28,7 +28,7 @@ $jpegfiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object {$_.Ext
 $shell=New-Object -Com Shell.Application;
 
 Remove-Item "${CSV_FILE}" -Recurse -Force
-Add-Content -path "${CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","大きさ",'
+Add-Content -path "${CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","高さ","幅",' -Encoding UTF8
 
 foreach ($item in $pngfiles){
     $folderobj = $shell.NameSpace($item.DirectoryName)
@@ -36,14 +36,16 @@ foreach ($item in $pngfiles){
 
     $name = $folderobj.GetDetailsOf($file, 0)
     $file_size = $folderobj.GetDetailsOf($file, 1)
-    $size = $folderobj.GetDetailsOf($file, 31)
+    $width= $folderobj.GetDetailsOf($file, 177)
+    $height= $folderobj.GetDetailsOf($file, 179)
 
     $file_path = $item.DirectoryName
     Log "${file_path}"
     Log "[名前]：${name}";
     Log "[サイズ]：${file_size}";
-    Log "[大きさ]：${size}";
-    Add-Content -path "${CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${size}"
+    Log "[幅]：${width}";
+    Log "[高さ]：${height}";
+    Add-Content -path "${CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
 
 }
 
@@ -60,6 +62,6 @@ foreach ($item in $jpegfiles){
     Log "[名前]：${name}";
     Log "[サイズ]：${file_size}";
     Log "[大きさ]：${size}";
-    Add-Content -path "${CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${size}"
+    Add-Content -path "${CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${size}" -Encoding UTF8
 
 }
