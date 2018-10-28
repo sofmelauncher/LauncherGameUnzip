@@ -17,10 +17,10 @@ Start-Transcript -path "${date}-${LOG_FILE}" -append;
 
 $basedir = (Convert-Path ../);
 
-Log "mp4ファイル探索"
+Log "pngファイル探索"
 $pngfiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object {$_.Extension -eq ".png"}
 
-Log "aviファイル探索"
+Log "jgpeファイル探索"
 $jpegfiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object {$_.Extension -eq ".jpeg"}
 
 
