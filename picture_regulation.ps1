@@ -1,4 +1,4 @@
-﻿set LOG_FILE "Movie-Regulations.log" -option constant
+﻿set LOG_FILE "Picture-Regulations.log" -option constant
 set CSV_FILE "./picture_data.csv" -option constant
 
 function Log($text, $Level){
