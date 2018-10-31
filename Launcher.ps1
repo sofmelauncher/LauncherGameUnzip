@@ -28,18 +28,18 @@ Log "${basedir}\bin\${GAME_DIR}の確認：${is_expanded}"
 if($is_expanded -eq 1){
     Log "解凍開始"
     Log "ランチャールートディレクトリ：${basedir}"
-    $game_zip = $basedir + "\gomi_zip";
+    $game_zip = $basedir + "\games_zip";
 
     Log "ディレクトリ作成:${game_zip}"
     $buff = New-Item $game_zip -ItemType Directory -Force;
-    Log "ディレクトリ作成:${basedir}\game"
-    $buff = New-Item "${basedir}\game" -ItemType Directory -Force;
+    Log "ディレクトリ作成:${basedir}\Games"
+    $buff = New-Item "${basedir}\Games" -ItemType Directory -Force;
 
     #ゲーム複製
     Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\game\" | Log "複製:${_}から${basedir}\game\"  }
 
-    Log "zipファイル探索ディレクトリ：${basedir}\game"
-    $zipfiles = Get-ChildItem "${basedir}\game" -Recurse | Where-Object {$_.Extension -eq ".zip"}
+    Log "zipファイル探索ディレクトリ：${basedir}\Games"
+    $zipfiles = Get-ChildItem "${basedir}\Games" -Recurse | Where-Object {$_.Extension -eq ".zip"}
     
     Log "Expand zip files..."
     foreach ($item in $zipfiles){
