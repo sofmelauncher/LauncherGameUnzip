@@ -1,16 +1,7 @@
-﻿set LOG_FILE "Picture-Regulations.log" -option constant
-set CSV_FILE "./picture_data.csv" -option constant
+﻿. ".\log.ps1"
 
-function Log($text, $Level){
-    $time = (Get-Date -Format 'yyyy/MM/dd-HH:mm:ss.fff')
-    $Message = "INFO "
-    switch ($Level) {
-        2 {
-            $Message = "ERROR"
-        }
-    }
-    Write-Output "[${time}][${Message}] : ${text}";
-}
+set LOG_FILE "Picture-Regulations.log" -option constant
+set CSV_FILE "./picture_data.csv" -option constant
 
 $date = (Get-Date -Format "yyyy-MM-dd")
 Start-Transcript -path "${date}-${LOG_FILE}" -append;

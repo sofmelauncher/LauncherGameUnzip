@@ -1,16 +1,7 @@
-﻿set LOG_FILE "Movie-Regulations.log" -option constant
-set CSV_FILE "./movie_data.csv" -option constant
+﻿. ".\log.ps1"
 
-function Log($text, $Level){
-    $time = (Get-Date -Format 'yyyy/MM/dd-HH:mm:ss.fff')
-    $Message = "INFO "
-    switch ($Level) {
-        2 {
-            $Message = "ERROR"
-        }
-    }
-    Write-Output "[${time}][${Message}] : ${text}";
-}
+set LOG_FILE "Movie-Regulations.log" -option constant
+set CSV_FILE "./movie_data.csv" -option constant
 
 $date = (Get-Date -Format "yyyy-MM-dd")
 Start-Transcript -path "${date}-${LOG_FILE}" -append;
@@ -18,19 +9,19 @@ Start-Transcript -path "${date}-${LOG_FILE}" -append;
 $basedir = (Convert-Path ../);
 
 Log "mp4ファイル探索"
-$mp4files = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object {$_.Extension -eq ".mp4"} 
+$mp4files = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object { $_.Extension -eq ".mp4" } 
 
 Log "aviファイル探索"
-$avifiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object {$_.Extension -eq ".avi"}
+$avifiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object { $_.Extension -eq ".avi" }
 
 
 
-$shell=New-Object -Com Shell.Application;
+$shell = New-Object -Com Shell.Application;
 
 Remove-Item "${CSV_FILE}" -Recurse -Force
 Add-Content -path "${CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","長さ","総ビットレート","フレーム幅","フレーム高","フレーム率"' -Encoding UTF8
 
-foreach ($item in $mp4files){
+foreach ($item in $mp4files) {
     $folderobj = $shell.NameSpace($item.DirectoryName)
     $file = $folderobj.ParseName($item.name)
 
@@ -51,7 +42,7 @@ foreach ($item in $mp4files){
     Add-Content -path "${CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}" -Encoding UTF8
 
 }
-foreach ($item in $avifiles){
+foreach ($item in $avifiles) {
     $folderobj = $shell.NameSpace($item.DirectoryName)
     $file = $folderobj.ParseName($item.name)
 
