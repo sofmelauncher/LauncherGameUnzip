@@ -1,7 +1,8 @@
-﻿. ".\log.ps1"
+﻿. ".\Log.ps1"
 
-set LOG_FILE "Picture-Regulations.log" -option constant
-set CSV_FILE "./picture_data.csv" -option constant
+
+Set-Variable LOG_FILE "Picture-Regulations.log" -option constant
+Set-Variable CSV_FILE "./picture_data.csv" -option constant
 
 $date = (Get-Date -Format "yyyy-MM-dd")
 Start-Transcript -path "${date}-${LOG_FILE}" -append;
@@ -9,26 +10,25 @@ Start-Transcript -path "${date}-${LOG_FILE}" -append;
 $basedir = (Convert-Path ../);
 
 Log "pngファイル探索"
-$pngfiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object {$_.Extension -eq ".png"}
+$pngfiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object { $_.Extension -eq ".png" }
 
 Log "jgpeファイル探索"
-$jpegfiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object {$_.Extension -eq ".jpeg"}
+$jpegfiles = Get-ChildItem "${basedir}\bin\file" -Recurse | Where-Object { $_.Extension -eq ".jpeg" }
 
 
-
-$shell=New-Object -Com Shell.Application;
+$shell = New-Object -Com Shell.Application;
 
 Remove-Item "${CSV_FILE}" -Recurse -Force
 Add-Content -path "${CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","幅","高さ",' -Encoding UTF8
 
-foreach ($item in $pngfiles){
+foreach ($item in $pngfiles) {
     $folderobj = $shell.NameSpace($item.DirectoryName)
     $file = $folderobj.ParseName($item.name)
 
     $name = $folderobj.GetDetailsOf($file, 0)
     $file_size = $folderobj.GetDetailsOf($file, 1)
-    $width= $folderobj.GetDetailsOf($file, 177)
-    $height= $folderobj.GetDetailsOf($file, 179)
+    $width = $folderobj.GetDetailsOf($file, 177)
+    $height = $folderobj.GetDetailsOf($file, 179)
 
     $file_path = $item.DirectoryName
     Log "${file_path}"
@@ -42,14 +42,14 @@ foreach ($item in $pngfiles){
 
 }
 
-foreach ($item in $jpegfiles){
+foreach ($item in $jpegfiles) {
     $folderobj = $shell.NameSpace($item.DirectoryName)
     $file = $folderobj.ParseName($item.name)
 
     $name = $folderobj.GetDetailsOf($file, 0)
     $file_size = $folderobj.GetDetailsOf($file, 1)
-    $width= $folderobj.GetDetailsOf($file, 177)
-    $height= $folderobj.GetDetailsOf($file, 179)
+    $width = $folderobj.GetDetailsOf($file, 177)
+    $height = $folderobj.GetDetailsOf($file, 179)
 
     $file_path = $item.DirectoryName
     Log "${file_path}"
