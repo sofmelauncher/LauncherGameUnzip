@@ -30,13 +30,13 @@ if ($is_expanded -eq 1) {
     Log "ランチャールートディレクトリ：${basedir}"
     $game_zip = $basedir + "\Games_zip";
 
-    Log "ディレクトリ作成:${game_zip}"
+    Log "ディレクトリ作成:${Game_zip}"
     $buff = New-Item $game_zip -ItemType Directory -Force;
     Log "ディレクトリ作成:${basedir}\Games"
     $buff = New-Item "${basedir}\Games" -ItemType Directory -Force;
 
     #ゲーム複製
-    Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Game\" | Log "コピー:${_}から${basedir}\Game\" }
+    Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Games\" | Log "コピー:${_}から${basedir}\Games\" }
 
     Log "zipファイル探索ディレクトリ：${basedir}\Games"
     $zipfiles = Get-ChildItem "${basedir}\Games" -Recurse | Where-Object { $_.Extension -eq ".zip" }
