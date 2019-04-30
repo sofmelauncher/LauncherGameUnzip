@@ -16,10 +16,11 @@ function NoTimeLog($text) {
     Write-Output "${text}";
 }
 
-$date = (Get-Date -Format "yyyy-MM-dd")
-Start-Transcript -path "${date}-${LOG_FILE}" -append;
-
 $basedir = (Convert-Path ../);
+
+$date = (Get-Date -Format "yyyy-MM-dd")
+Start-Transcript -path "${basedir}\{date}-${LOG_FILE}" -append;
+
 
 #bin/ゲームの存在確認
 $is_expanded = Test-Path "${basedir}\bin\${GAME_DIR}"
