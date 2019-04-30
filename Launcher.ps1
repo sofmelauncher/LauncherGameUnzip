@@ -1,7 +1,7 @@
 ﻿set LOG_FILE "Expandlog.log" -option constant
 set GAME_DIR "file" -option constant
 
-function Log($text, $Level){
+function Log($text, $Level) {
     $time = (Get-Date -Format 'yyyy/MM/dd-HH:mm:ss.fff')
     $Message = "INFO "
     switch ($Level) {
@@ -12,7 +12,7 @@ function Log($text, $Level){
     Write-Output "[${time}][${Message}] : ${text}";
 }
 
-function NoTimeLog($text){
+function NoTimeLog($text) {
     Write-Output "${text}";
 }
 
@@ -25,10 +25,10 @@ $basedir = (Convert-Path ../);
 $is_expanded = Test-Path "${basedir}\bin\${GAME_DIR}"
 Log "${basedir}\bin\${GAME_DIR}の確認：${is_expanded}"
 
-if($is_expanded -eq 1){
+if ($is_expanded -eq 1) {
     Log "解凍開始"
     Log "ランチャールートディレクトリ：${basedir}"
-    $game_zip = $basedir + "\games_zip";
+    $game_zip = $basedir + "\Games_zip";
 
     Log "ディレクトリ作成:${game_zip}"
     $buff = New-Item $game_zip -ItemType Directory -Force;
@@ -36,13 +36,13 @@ if($is_expanded -eq 1){
     $buff = New-Item "${basedir}\Games" -ItemType Directory -Force;
 
     #ゲーム複製
-    Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\game\" | Log "複製:${_}から${basedir}\game\"  }
+    Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Game\" | Log "複製:${_}から${basedir}\Game\" }
 
     Log "zipファイル探索ディレクトリ：${basedir}\Games"
-    $zipfiles = Get-ChildItem "${basedir}\Games" -Recurse | Where-Object {$_.Extension -eq ".zip"}
+    $zipfiles = Get-ChildItem "${basedir}\Games" -Recurse | Where-Object { $_.Extension -eq ".zip" }
     
     Log "Expand zip files..."
-    foreach ($item in $zipfiles){
+    foreach ($item in $zipfiles) {
         $destination = $item.FullName;
         $destination = $destination.Substring(0, $destination.Length - ($item.Extension).Length);
         $destinationParent = Split-Path $destination -Parent
@@ -57,10 +57,11 @@ if($is_expanded -eq 1){
     Remove-Item "${basedir}\bin\${GAME_DIR}\" -Recurse -Force
 
     NoTimeLog "Zip List"
-    foreach ($item in $zipfiles){
+    foreach ($item in $zipfiles) {
         NoTimeLog "${item}"
     }
-}else{
+}
+else {
     Log "解凍データなし。"
 }
 
