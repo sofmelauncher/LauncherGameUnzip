@@ -36,7 +36,7 @@ if ($is_expanded -eq 1) {
     $buff = New-Item "${basedir}\Games" -ItemType Directory -Force;
 
     #ゲーム複製
-    Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Game\" | Log "複製:${_}から${basedir}\Game\" }
+    Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Game\" | Log "コピー:${_}から${basedir}\Game\" }
 
     Log "zipファイル探索ディレクトリ：${basedir}\Games"
     $zipfiles = Get-ChildItem "${basedir}\Games" -Recurse | Where-Object { $_.Extension -eq ".zip" }
