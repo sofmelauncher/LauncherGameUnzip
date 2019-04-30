@@ -12,19 +12,19 @@ function Log($text, $Level) {
     Write-Output "[${time}][${Message}] : ${text}";
 }
 
-function NoTimeLog($text) {
+function TextLog($text) {
     Write-Output "${text}";
 }
 
 $basedir = (Convert-Path ../);
 
 $date = (Get-Date -Format "yyyy-MM-dd")
-Start-Transcript -path "${basedir}\{date}-${LOG_FILE}" -append;
+Start-Transcript -path "${basedir}\${date}-${LOG_FILE}" -append;
 
 
 #bin/ゲームの存在確認
-$is_expanded = Test-Path "${basedir}\bin\${GAME_DIR}"
-Log "${basedir}\bin\${GAME_DIR}の確認：${is_expanded}"
+$is_expanded = Test-Path "${basedir}\${GAME_DIR}"
+Log "${basedir}\${GAME_DIR}の確認：${is_expanded}"
 
 if ($is_expanded -eq 1) {
     Log "解凍開始"
@@ -37,7 +37,7 @@ if ($is_expanded -eq 1) {
     $buff = New-Item "${basedir}\Games" -ItemType Directory -Force;
 
     #ゲーム複製
-    Get-ChildItem $GAME_DIR | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Games\" | Log "コピー:${_}から${basedir}\Games\" }
+    Get-ChildItem "${basedir}\${GAME_DIR}" | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Games\" | Log "コピー:${_}から${basedir}\Games\" }
 
     Log "zipファイル探索ディレクトリ：${basedir}\Games"
     $zipfiles = Get-ChildItem "${basedir}\Games" -Recurse | Where-Object { $_.Extension -eq ".zip" }
@@ -57,9 +57,9 @@ if ($is_expanded -eq 1) {
     #元ゲームデータ削除
     #Remove-Item "${basedir}\bin\${GAME_DIR}\" -Recurse -Force
 
-    NoTimeLog "Zip List"
+    TextLog "Zip List"
     foreach ($item in $zipfiles) {
-        NoTimeLog "${item}"
+        TextLog "${item}"
     }
 }
 else {
