@@ -1,7 +1,7 @@
-﻿. ".\log.ps1"
+﻿. ".\Log.ps1"
 
-set LOG_FILE "Expandlog.log" -option constant
-set GAME_DIR "file" -option constant
+Set-Variable LOG_FILE "Expandlog.log" -option constant
+Set-Variable GAME_DIR "file" -option constant
 
 $basedir = (Convert-Path ../);
 
@@ -19,9 +19,9 @@ if ($is_expanded -eq 1) {
     $game_zip = $basedir + "\Games_zip";
 
     Log "ディレクトリ作成:${Game_zip}"
-    $buff = New-Item $game_zip -ItemType Directory -Force;
+    New-Item $game_zip -ItemType Directory -Force;
     Log "ディレクトリ作成:${basedir}\Games"
-    $buff = New-Item "${basedir}\Games" -ItemType Directory -Force;
+    New-Item "${basedir}\Games" -ItemType Directory -Force;
 
     #ゲーム複製
     Get-ChildItem "${basedir}\${GAME_DIR}" | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Games\" | Log "コピー:${_}から${basedir}\Games\" }
@@ -34,7 +34,7 @@ if ($is_expanded -eq 1) {
         $destination = $item.FullName;
         $destination = $destination.Substring(0, $destination.Length - ($item.Extension).Length);
         $destinationParent = Split-Path $destination -Parent
-        $buffer = New-Item -Path $destination -ItemType Directory -Force
+        New-Item -Path $destination -ItemType Directory -Force
         Log "解凍先： ${destination}"
         Log "解凍：${item}"
         Expand-Archive -Path $item.FullName -DestinationPath $destinationParent -Force
