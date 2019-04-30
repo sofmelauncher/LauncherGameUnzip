@@ -1,7 +1,8 @@
-﻿. ".\log.ps1"
+﻿. ".\Log.ps1"
 
-set LOG_FILE "Movie-Regulations.log" -option constant
-set CSV_FILE "./movie_data.csv" -option constant
+
+Set-Variable LOG_FILE "Movie-Regulations.log" -option constant
+Set-Variable CSV_FILE "./movie_data.csv" -option constant
 
 $date = (Get-Date -Format "yyyy-MM-dd")
 Start-Transcript -path "${date}-${LOG_FILE}" -append;
