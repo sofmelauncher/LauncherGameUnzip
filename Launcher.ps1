@@ -54,7 +54,7 @@ if ($is_expanded -eq 1) {
         Move-Item $item.FullName $game_zip　-Force;
     }
     #元ゲームデータ削除
-    Remove-Item "${basedir}\bin\${GAME_DIR}\" -Recurse -Force
+    #Remove-Item "${basedir}\bin\${GAME_DIR}\" -Recurse -Force
 
     NoTimeLog "Zip List"
     foreach ($item in $zipfiles) {
