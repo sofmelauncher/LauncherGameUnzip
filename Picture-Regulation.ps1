@@ -1,16 +1,14 @@
 ﻿. ".\Log.ps1"
 
 
-Set-Variable LOG_FILE "Picture-Regulations.log" -option constant
-Set-Variable CSV_FILE "../picture_data.csv" -option constant
-
-$date = (Get-Date -Format "yyyy-MM-dd")
-Start-Transcript -path "${date}-${LOG_FILE}" -append;
-
-$basedir = (Convert-Path ../);
+Set-Variable P_LOG_FILE "Picture-Regulations.log" -option constant
+Set-Variable P_CSV_FILE "../picture_data.csv" -option constant
 
 function PictureRegulations {
-    
+    $date = (Get-Date -Format "yyyy-MM-dd")
+    $basedir = (Convert-Path ../);
+    Start-Transcript -path "../${date}-${P_LOG_FILE}" -append;
+
     Log "pngファイル探索"
     $pngfiles = Get-ChildItem "${basedir}\file" -Recurse | Where-Object { $_.Extension -eq ".png" }
 
@@ -20,8 +18,11 @@ function PictureRegulations {
 
     $shell = New-Object -Com Shell.Application;
 
-    Remove-Item "${CSV_FILE}" -Recurse -Force
-    Add-Content -path "${CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","幅","高さ",' -Encoding UTF8
+    $is_csv = Test-Path "${basedir}\${P_CSV_FILE}"
+    if ($is_csv -eq 1) {
+        Remove-Item "${basedir}\${P_CSV_FILE}" -Recurse -Force
+    }
+    Add-Content -path "${P_CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","幅","高さ",' -Encoding UTF8
 
     foreach ($item in $pngfiles) {
         $folderobj = $shell.NameSpace($item.DirectoryName)
@@ -40,7 +41,7 @@ function PictureRegulations {
         Log "[高さ]：${height}";
         $width = $width -replace "ピクセル", ""
         $height = $height -replace "ピクセル", ""
-        Add-Content -path "${CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
+        Add-Content -path "${P_CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
 
     }
 
@@ -61,8 +62,12 @@ function PictureRegulations {
         Log "[高さ]：${height}";
         $width = $width -replace "ピクセル", ""
         $height = $height -replace "ピクセル", ""
-        Add-Content -path "${CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
+        Add-Content -path "${P_CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
 
     }
 
+    
+    Stop-Transcript
+
 }
+PictureRegulations
