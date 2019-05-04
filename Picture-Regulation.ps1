@@ -41,7 +41,7 @@ function PictureRegulations {
         Log "[高さ]：${height}";
         $width = $width -replace "ピクセル", ""
         $height = $height -replace "ピクセル", ""
-        Add-Content -path "${P_CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
+        Add-Content -path "${basedir}\${P_CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
 
     }
 
@@ -62,7 +62,7 @@ function PictureRegulations {
         Log "[高さ]：${height}";
         $width = $width -replace "ピクセル", ""
         $height = $height -replace "ピクセル", ""
-        Add-Content -path "${P_CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
+        Add-Content -path "${basedir}\${P_CSV_FILE}" -Value "${file_path},${name},${file_size},${width},${height}" -Encoding UTF8
 
     }
 
