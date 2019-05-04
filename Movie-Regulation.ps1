@@ -1,7 +1,7 @@
 ﻿. ".\Log.ps1"
 
 Set-Variable M_LOG_FILE "Movie-Regulations.log" -option constant
-Set-Variable M_CSV_FILE "../movie_data.csv" -option constant
+Set-Variable M_CSV_FILE "movie_data.csv" -option constant
 
 
 function MovieRegulations {
@@ -23,7 +23,7 @@ function MovieRegulations {
     if ($is_csv -eq 1) {
         Remove-Item "${basedir}\${M_CSV_FILE}" -Recurse -Force
     }
-    Add-Content -path "${M_CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","長さ","総ビットレート","フレーム幅","フレーム高","フレーム率"' -Encoding UTF8
+    Add-Content -path "${basedir}\${M_CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","長さ","総ビットレート","フレーム幅","フレーム高","フレーム率"' -Encoding UTF8
 
     foreach ($item in $mp4files) {
         $folderobj = $shell.NameSpace($item.DirectoryName)
@@ -43,7 +43,7 @@ function MovieRegulations {
         Log "[サイズ]：${file_size}";
         Log "[長さ]：${length}";
         Log "[ビットレート]：${bit_rate}";
-        Add-Content -path "${M_CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}" -Encoding UTF8
+        Add-Content -path "${basedir}\${M_CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}" -Encoding UTF8
 
     }
     foreach ($item in $avifiles) {
@@ -64,7 +64,7 @@ function MovieRegulations {
         Log "[サイズ]：${file_size}";
         Log "[長さ]：${length}";
         Log "[ビットレート]：${bit_rate}";
-        Add-Content -path "${M_CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}" -Encoding UTF8
+        Add-Content -path "${basedir}\${M_CSV_FILE}" -Value "${file_path}, ${name}, ${file_size}, ${length}, ${bit_rate}, ${width}, ${heigh}, ${frame_rate}" -Encoding UTF8
 
     }
 
