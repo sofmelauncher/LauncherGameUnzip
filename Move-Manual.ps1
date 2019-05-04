@@ -4,10 +4,9 @@
 Set-StrictMode -Off
 Set-Variable MANUAL_DIR "manual" -option constant
 if ($GAME_DIR -eq $null) {
+    Set-Variable GAME_DIR "file" -option constant
 }
-Set-Variable GAME_DIR "file" -option constant
-if ($LOG_FILE -eq $null) {
-}
+
 Set-Variable Ma_LOG_FILE "Manual_Expandlog.log" -option constant
 
 
