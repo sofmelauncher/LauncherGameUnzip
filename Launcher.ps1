@@ -56,7 +56,7 @@ if ($is_expanded -eq 1) {
         $buff = New-Item -Path $destination -ItemType Directory -Force
         Log "解凍先： ${destination}"
         Log "解凍：${item}"
-        #Expand-Archive -Path $item.FullName -DestinationPath $destinationParent -Force
+        Expand-Archive -Path $item.FullName -DestinationPath $destinationParent -Force
         Log "zipファイル移動：${item}"
         Move-Item $item.FullName $game_zip　-Force;
     }
