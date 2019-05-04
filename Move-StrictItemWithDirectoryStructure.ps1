@@ -38,7 +38,7 @@ function Copy-StrictItemWithDirectoryStructure {
             } } `
         | % {
             $buff = New-Item $_.DirectoryName -ItemType Directory -Force
-            $buff = Copy-Item -Path $_.Path -Destination $_.Destination -Force
+            $buff = Move-Item -Path $_.Path -Destination $_.Destination -Force
         }
     }
 }
