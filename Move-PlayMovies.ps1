@@ -1,5 +1,13 @@
 ."./Log.ps1"
 
+Set-Variable PLAY_MOVIE_DIR "playMovie" -option constant
+Set-Variable GAME_DIR "file" -option constant
+Set-Variable LOG_FILE "Expandlog.log" -option constant
+
+$basedir = (Convert-Path ../);
+$date = (Get-Date -Format "yyyy-MM-dd")
+Start-Transcript -path "${basedir}\${date}-${LOG_FILE}" -append;
+
 function MovePlyaMovie {
     #プレイ動画の移動
     Log "Move PlayMovie"
@@ -17,7 +25,8 @@ function MovePlyaMovie {
     }
 
     foreach ($item in $movieDirList) {
-        Log "remove:${item}"
+        $t = $item.FullName
+        Log "remove:${t}"
         Remove-Item $item.FullName
     }
 }

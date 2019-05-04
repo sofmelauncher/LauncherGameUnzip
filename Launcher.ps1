@@ -1,10 +1,10 @@
 ﻿."./Log.ps1"
 ."./Move-StrictItemWithDirectoryStructure.ps1"
 ."./Move-PlayMovies.ps1"
+."./Move-Manual.ps1"
 
 Set-Variable LOG_FILE "Expandlog.log" -option constant
 Set-Variable GAME_DIR "file" -option constant
-Set-Variable PLAY_MOVIE_DIR "playMovie" -option constant
 
 $basedir = (Convert-Path ../);
 
@@ -19,6 +19,8 @@ Log "${basedir}\${GAME_DIR}の確認：${is_expanded}"
 if ($is_expanded -eq 1) {
 
     MovePlyaMovie
+
+    MoveManual
 
     Log "UnZip Start"
     Log "ランチャールートディレクトリ：${basedir}"
