@@ -8,7 +8,7 @@ if ($GAME_DIR -eq $null) {
 Set-Variable GAME_DIR "file" -option constant
 if ($LOG_FILE -eq $null) {
 }
-Set-Variable Ma_LOG_FILE "Expandlog.log" -option constant
+Set-Variable Ma_LOG_FILE "Manual_Expandlog.log" -option constant
 
 
 function MoveManual {
