@@ -2,7 +2,7 @@
 
 
 Set-Variable P_LOG_FILE "Picture-Regulations.log" -option constant
-Set-Variable P_CSV_FILE "../picture_data.csv" -option constant
+Set-Variable P_CSV_FILE "picture_data.csv" -option constant
 
 function PictureRegulations {
     $date = (Get-Date -Format "yyyy-MM-dd")
@@ -22,7 +22,7 @@ function PictureRegulations {
     if ($is_csv -eq 1) {
         Remove-Item "${basedir}\${P_CSV_FILE}" -Recurse -Force
     }
-    Add-Content -path "${P_CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","幅","高さ",' -Encoding UTF8
+    Add-Content -path "${basedir}\${P_CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","幅","高さ",' -Encoding UTF8
 
     foreach ($item in $pngfiles) {
         $folderobj = $shell.NameSpace($item.DirectoryName)
