@@ -37,8 +37,8 @@ function Copy-StrictItemWithDirectoryStructure {
                 Destination   = Join-Path $directoryName $_.Name
             } } `
         | % {
-            New-Item $_.DirectoryName -ItemType Directory -Force
-            Copy-Item -Path $_.Path -Destination $_.Destination -Force
+            $buff = New-Item $_.DirectoryName -ItemType Directory -Force
+            $buff = Copy-Item -Path $_.Path -Destination $_.Destination -Force
         }
     }
 }
