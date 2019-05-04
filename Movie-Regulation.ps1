@@ -1,14 +1,14 @@
 ﻿. ".\Log.ps1"
 
-Set-Variable M_LOG_FILE "../Movie-Regulations.log" -option constant
+Set-Variable M_LOG_FILE "Movie-Regulations.log" -option constant
 Set-Variable M_CSV_FILE "../movie_data.csv" -option constant
 
-$date = (Get-Date -Format "yyyy-MM-dd")
-Start-Transcript -path "${date}-${M_LOG_FILE}" -append;
-
-$basedir = (Convert-Path ../);
 
 function MovieRegulations {
+    $basedir = (Convert-Path ../);
+    $date = (Get-Date -Format "yyyy-MM-dd")
+
+    Start-Transcript -path "../${date}-${M_LOG_FILE}" -append;
     Log "mp4ファイル探索"
     $mp4files = Get-ChildItem "${basedir}\file" -Recurse | Where-Object { $_.Extension -eq ".mp4" } 
 
@@ -19,7 +19,10 @@ function MovieRegulations {
 
     $shell = New-Object -Com Shell.Application;
 
-    Remove-Item "${M_CSV_FILE}" -Recurse -Force
+    $is_csv = Test-Path "${basedir}\${M_CSV_FILE}"
+    if ($is_csv -eq 1) {
+        Remove-Item "${basedir}\${M_CSV_FILE}" -Recurse -Force
+    }
     Add-Content -path "${M_CSV_FILE}" -Value '"ディレクトリ","ファイル名","サイズ","長さ","総ビットレート","フレーム幅","フレーム高","フレーム率"' -Encoding UTF8
 
     foreach ($item in $mp4files) {
@@ -65,6 +68,7 @@ function MovieRegulations {
 
     }
 
+    Stop-Transcript
 }
-Stop-Transcript
+MovieRegulations
 
