@@ -1,19 +1,20 @@
 ."./Log.ps1"
+."./Move-StrictItemWithDirectoryStructure.ps1"
 
 Set-StrictMode -Off
 Set-Variable MANUAL_DIR "manual" -option constant
-if ($GAME_DIR -ne $null) {
-    Set-Variable GAME_DIR "file" -option constant
+if ($GAME_DIR -eq $null) {
 }
-if ($LOG_FILE -ne $null) {
-    Set-Variable LOG_FILE "Expandlog.log" -option constant
+Set-Variable GAME_DIR "file" -option constant
+if ($LOG_FILE -eq $null) {
 }
+Set-Variable Ma_LOG_FILE "Expandlog.log" -option constant
 
-$basedir = (Convert-Path ../);
-$date = (Get-Date -Format "yyyy-MM-dd")
 
 function MoveManual {
-    Start-Transcript -path "${basedir}\${date}-${LOG_FILE}" -append;
+    $basedir = (Convert-Path ../);
+    $date = (Get-Date -Format "yyyy-MM-dd")
+    Start-Transcript -path "${basedir}\${date}-${Ma_LOG_FILE}" -append;
     #プレイ動画の移動
     Log "Move Manual"
     Log "${basedir}\${GAME_DIR} -> ${basedir}\${MANUAL_DIR}"
@@ -36,4 +37,6 @@ function MoveManual {
     }
     Stop-Transcript
 }
+
+MoveManual
 
