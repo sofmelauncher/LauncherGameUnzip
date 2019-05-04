@@ -29,11 +29,11 @@ function MoveManual {
         Copy-StrictItemWithDirectoryStructure -inputPath $ManualList -Destination "${basedir}\${MANUAL_DIR}" -InputRoot "${basedir}\${GAME_DIR}"
     }
 
-    foreach ($item in $ManualDirList) {
-        $t = $item.FullName
-        Log "remove:${t}"
-        #Remove-Item $item.FullName
-    }
+    # foreach ($item in $ManualDirList) {
+    #     $t = $item.FullName
+    #     Log "remove:${t}"
+    #     #Remove-Item $item.FullName
+    # }
     Stop-Transcript
 }
 

@@ -30,11 +30,11 @@ function MovePlyaMovie {
         Copy-StrictItemWithDirectoryStructure -inputPath $playMovieList -Destination "${basedir}\${PLAY_MOVIE_DIR}" -InputRoot "${basedir}\${GAME_DIR}"
     }
 
-    foreach ($item in $movieDirList) {
-        $t = $item.FullName
-        Log "remove:${t}"
-        #Remove-Item $item.FullName
-    }
+    # foreach ($item in $movieDirList) {
+    #     $t = $item.FullName
+    #     Log "remove:${t}"
+    #     #Remove-Item $item.FullName
+    # }
     Stop-Transcript  
 }
 MovePlyaMovie
