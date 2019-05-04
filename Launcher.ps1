@@ -5,8 +5,13 @@
 ."./Movie-Regulation.ps1"
 ."./Picture-Regulation.ps1"
 
-Set-Variable LOG_FILE "Expandlog.log" -option constant
-Set-Variable GAME_DIR "file" -option constant
+
+if ($LOG_FILE -eq $null) {
+    Set-Variable LOG_FILE "Expandlog.log" -option constant
+}
+if ($GAME_DIR -eq $null) {
+    Set-Variable GAME_DIR "file" -option constant
+}
 
 $basedir = (Convert-Path ../);
 
