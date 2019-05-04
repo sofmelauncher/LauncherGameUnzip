@@ -1,6 +1,5 @@
 ﻿."./Log.ps1"
-."./Copy-StrictedFilterFileWithDirectoryStructure.ps1"
-."./Copy-StrictItemWithDirectoryStructure.ps1"
+."./Move-StrictItemWithDirectoryStructure.ps1"
 ."./Move-PlayMovies.ps1"
 
 Set-Variable LOG_FILE "Expandlog.log" -option constant
