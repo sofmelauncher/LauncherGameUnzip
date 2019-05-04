@@ -1,7 +1,9 @@
-﻿. ".\Log.ps1"
+﻿."./Log.ps1"
+."./Copy-StrictedFilterFileWithDirectoryStructure.ps1"
 
 Set-Variable LOG_FILE "Expandlog.log" -option constant
 Set-Variable GAME_DIR "file" -option constant
+Set-Variable PLAY_MOVIE_DIR "playMovie" -option constant
 
 $basedir = (Convert-Path ../);
 
@@ -10,7 +12,7 @@ Start-Transcript -path "${basedir}\${date}-${LOG_FILE}" -append;
 
 
 #bin/ゲームの存在確認
-$is_expanded = Test-Path "${basedir}\${GAME_DIR}"
+#$is_expanded = Test-Path "${basedir}\${GAME_DIR}"
 Log "${basedir}\${GAME_DIR}の確認：${is_expanded}"
 
 if ($is_expanded -eq 1) {
@@ -19,9 +21,9 @@ if ($is_expanded -eq 1) {
     $game_zip = $basedir + "\Games_zip";
 
     Log "ディレクトリ作成:${Game_zip}"
-    New-Item $game_zip -ItemType Directory -Force;
+    $buff = New-Item $game_zip -ItemType Directory -Force;
     Log "ディレクトリ作成:${basedir}\Games"
-    New-Item "${basedir}\Games" -ItemType Directory -Force;
+    $buff = New-Item "${basedir}\Games" -ItemType Directory -Force;
 
     #ゲーム複製
     Get-ChildItem "${basedir}\${GAME_DIR}" | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Games\" | Log "コピー:${_}から${basedir}\Games\" }
@@ -34,7 +36,7 @@ if ($is_expanded -eq 1) {
         $destination = $item.FullName;
         $destination = $destination.Substring(0, $destination.Length - ($item.Extension).Length);
         $destinationParent = Split-Path $destination -Parent
-        New-Item -Path $destination -ItemType Directory -Force
+        $buff = New-Item -Path $destination -ItemType Directory -Force
         Log "解凍先： ${destination}"
         Log "解凍：${item}"
         Expand-Archive -Path $item.FullName -DestinationPath $destinationParent -Force
@@ -52,5 +54,8 @@ if ($is_expanded -eq 1) {
 else {
     Log "解凍データなし。"
 }
+
+Log "${basedir}\${GAME_DIR} -> ${basedir}\${PLAY_MOVIE_DIR}"
+Copy-StrictedFilterFileWithDirectoryStructure -Path "${basedir}\${GAME_DIR}" -Destination "${basedir}\${PLAY_MOVIE_DIR}" -Targets ".mp4", ".avi"
 
 Stop-Transcript
