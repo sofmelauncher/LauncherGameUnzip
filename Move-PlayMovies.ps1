@@ -8,13 +8,13 @@ if ($GAME_DIR -eq $null) {
 Set-Variable GAME_DIR "file" -option constant
 if ($LOG_FILE -eq $null) {
 }
-Set-Variable LOG_FILE "Expandlog.log" -option constant
+Set-Variable Mo_LOG_FILE "Movie_Expandlog.log" -option constant
 
 function MovePlyaMovie {
     $basedir = (Convert-Path ../);
     $date = (Get-Date -Format "yyyy-MM-dd")
 
-    Start-Transcript -path "${basedir}\${date}-${LOG_FILE}" -append;
+    Start-Transcript -path "${basedir}\${date}-${Mo_LOG_FILE}" -append;
 
     #プレイ動画の移動
     Log "Move PlayMovie"
