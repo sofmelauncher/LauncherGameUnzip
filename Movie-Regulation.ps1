@@ -10,11 +10,16 @@ function MovieRegulations {
 
     Start-Transcript -path "../${date}-${M_LOG_FILE}" -append;
     Log "mp4ファイル探索"
-    $mp4files = Get-ChildItem "${basedir}\file" -Recurse | Where-Object { $_.Extension -eq ".mp4" } 
+    $mp4files = Get-ChildItem "${basedir}\file\" -Recurse | Where-Object { $_.Extension -eq ".mp4" } 
+    foreach ($item in $mp4files) {
+        TextLog "${item}"
+    }
 
     Log "aviファイル探索"
-    $avifiles = Get-ChildItem "${basedir}\file" -Recurse | Where-Object { $_.Extension -eq ".avi" }
-
+    $avifiles = Get-ChildItem "${basedir}\file\" -Recurse | Where-Object { $_.Extension -eq ".avi" }
+    foreach ($item in $avifiles) {
+        TextLog "${item}"
+    }
 
 
     $shell = New-Object -Com Shell.Application;
