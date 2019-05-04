@@ -2,6 +2,8 @@
 ."./Move-StrictItemWithDirectoryStructure.ps1"
 ."./Move-PlayMovies.ps1"
 ."./Move-Manual.ps1"
+."./Movie-Regulation.ps1"
+."./Picture-Regulation.ps1"
 
 Set-Variable LOG_FILE "Expandlog.log" -option constant
 Set-Variable GAME_DIR "file" -option constant
@@ -18,6 +20,10 @@ Log "${basedir}\${GAME_DIR}の確認：${is_expanded}"
 
 if ($is_expanded -eq 1) {
 
+    PictureRegulations
+
+    MovieRegulations
+
     MovePlyaMovie
 
     MoveManual
@@ -32,7 +38,7 @@ if ($is_expanded -eq 1) {
     $buff = New-Item "${basedir}\Games" -ItemType Directory -Force;
 
     #ゲーム複製
-    #Get-ChildItem "${basedir}\${GAME_DIR}" | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Games\" | Log "コピー:${_}から${basedir}\Games\" }
+    Get-ChildItem "${basedir}\${GAME_DIR}" | ForEach-Object -Process { Copy-Item -Force -Recurse $_.FullName "${basedir}\Games\" | Log "コピー:${_}から${basedir}\Games\" }
 
     Log "zipファイル探索ディレクトリ：${basedir}\Games"
     $zipfiles = Get-ChildItem "${basedir}\Games" -Recurse | Where-Object { $_.Extension -eq ".zip" }
