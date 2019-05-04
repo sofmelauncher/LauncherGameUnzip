@@ -10,10 +10,17 @@ function PictureRegulations {
     Start-Transcript -path "../${date}-${P_LOG_FILE}" -append;
 
     Log "pngファイル探索"
-    $pngfiles = Get-ChildItem "${basedir}\file" -Recurse | Where-Object { $_.Extension -eq ".png" }
+    $pngfiles = Get-ChildItem "${basedir}\file\" -Recurse | Where-Object { $_.Extension -eq ".png" }
+    foreach ($item in $pngfiles) {
+        TextLog "${item}"
+    }
+
 
     Log "jgpeファイル探索"
-    $jpegfiles = Get-ChildItem "${basedir}\file" -Recurse | Where-Object { $_.Extension -eq ".jpeg" }
+    $jpegfiles = Get-ChildItem "${basedir}\file\" -Recurse | Where-Object { $_.Extension -eq ".jpg" }
+    foreach ($item in $jpegfiles) {
+        TextLog "${item}"
+    }
 
 
     $shell = New-Object -Com Shell.Application;
