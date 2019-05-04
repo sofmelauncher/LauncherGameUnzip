@@ -69,4 +69,7 @@ function PictureRegulations {
     Stop-Transcript
 
 }
+}
+
+}
 

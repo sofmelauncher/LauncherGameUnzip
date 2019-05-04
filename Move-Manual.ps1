@@ -11,8 +11,9 @@ if ($LOG_FILE -ne $null) {
 
 $basedir = (Convert-Path ../);
 $date = (Get-Date -Format "yyyy-MM-dd")
-Start-Transcript -path "${basedir}\${date}-${LOG_FILE}" -append;
+
 function MoveManual {
+    Start-Transcript -path "${basedir}\${date}-${LOG_FILE}" -append;
     #プレイ動画の移動
     Log "Move Manual"
     Log "${basedir}\${GAME_DIR} -> ${basedir}\${MANUAL_DIR}"
@@ -33,6 +34,6 @@ function MoveManual {
         Log "remove:${t}"
         #Remove-Item $item.FullName
     }
+    Stop-Transcript
 }
 
-Stop-Transcript
