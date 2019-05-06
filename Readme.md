@@ -4,6 +4,6 @@
 ```
 root/
 ├ file/
-├ LauncherRegister/
+├ LauncherGameUnzip/
 　└ Launcher.ps1
 ```
