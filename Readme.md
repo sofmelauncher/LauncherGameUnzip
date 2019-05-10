@@ -4,6 +4,8 @@
 ```
 root/
 ├ file/
+|　├ 1/
+|　└ 2/
 ├ LauncherGameUnzip/
 　└ Launcher.ps1
 ```
